@@ -4,43 +4,97 @@
     padding-bottom: {{ section.settings.custom-slider-bottom-padding }}px;
   }
 
-  .btn-slider:hover {
-    transform: scale(1.1);
+  .slider-header {
+    font-size: 60px;
   }
 
+  #slider-block {
+    display: block;
+    position: relative;
+  }
+
+  .slider-subtitle {
+    font-size: 30px;
+  }
+
+  .btn-slider {
+    border-radius: 0;
+    padding: 3px 2rem;
+    font-size: 20px;
+    z-index: 10;
+  }
+
+  .btn-slider:hover {
+    transform: scale(1.2);
+  }
+
+  @media screen and (max-width: 990px) {
+    #slider-caption-block {
+      background-color: rgba(255,255,255,0.7);
+      padding: 20px 0;
+    }
+    .slider-header {
+      font-size: 45px;
+    }
+    .slider-subtitle {
+      font-size: 26px;
+    }
+    .btn-slider {
+      font-size: 19px;
+    } 
+  }
+
+  @media screen and (max-width: 500px) {
+    .slider-header {
+      font-size: 40px;
+    }
+    .slider-subtitle {
+      font-size: 20px;
+    }
+    .btn-slider {
+      font-size: 18px;
+    } 
+  }
+  
 </style>
 
-<div class="{%- if section.settings.full-width-section != true -%}container{%- else -%}100-vw{%- endif -%}" id="custom-slider-section">
-    <div id="custom-slider-liquid" class="carousel slide" data-bs-ride="true">
-      <div class="carousel-indicators">
-        <button type="button" data-bs-target="#custom-slider-liquid" data-bs-slide-to="0" aria-label="Slide 1"></button>
-        <button type="button" data-bs-target="#custom-slider-liquid" data-bs-slide-to="1" aria-label="Slide 2"></button>
-        <button type="button" data-bs-target="#custom-slider-liquid" data-bs-slide-to="2" class="active" aria-current="true" aria-label="Slide 3"></button>
-      </div>
-      <div class="carousel-inner">
+<div class="{%- if section.settings.full-width-section == true -%}100-vw{%- else -%}container{%- endif -%}" id="custom-slider-section">
+    <div id="custom-slider-liquid" class="carousel slide" data-bs-ride="carousel">
+      {%- if section.blocks.size > 1 -%}
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#custom-slider-liquid" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#custom-slider-liquid" data-bs-slide-to="1" aria-label="Slide 2"></button>
+          {%- if section.blocks.size > 2 -%}
+            <button type="button" data-bs-target="#custom-slider-liquid" data-bs-slide-to="2" aria-label="Slide 3"></button>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+      <div class="carousel-inner position-relative">
         {%- for block in section.blocks -%}
         <!-- must have same size both image and video recommended size is 1640 x 924 px fb cover or 720 x 500 px -->
-          <div class="carousel-item relative" id="slider-block">  
+          <div class="carousel-item active" {%- if section.blocks.size > 1 -%}data-bs-interval="5000"{%- endif -%} id="slider-block">  
             <a href="{{ block.settings.slider-link-button | escape }}">
               <img src="{{ block.settings.costom-slider-image | image_url }}" 
-                class="img-fluid d-none d-md-block" id="sliderCarouselImage"
+                class="w-100 d-none d-md-block" id="sliderCarouselImage"
                 alt="{{ block.settings.costom-slider-image.alt | escape }}"
               >
+              {%- if block.settings.slider-image-mobile != blank -%}
               <img src="{{ block.settings.slider-image-mobile | image_url }}" 
-                class="img-fluid d-block d-md-none" id="sliderCarouselImage"
+                class="w-100 d-block d-md-none" id="sliderCarouselImage-mob"
                 alt="{{ block.settings.costom-slider-image-mobile.alt | escape }}"
               >
+              {%- endif -%}
               {%- if block.settings.video-slider != blank -%}
-                <video class="object-fit-fill w-100 h-100 d-none" id="sliderVideo" autoplay muted playsinline loop>
+                <video class="object-fit-fill w-100 h-100" id="sliderVideo" autoplay muted playsinline loop>
                   <source src="{{ block.settings.video-slider }}" loading="lazy" type="video/mp4">
                 </video>
               {%- endif -%}
             </a>
-            <div class="absolute d-block my-auto px-2 px-md-5text-{{ block.settings.text-alignment-mobile }} text-md-{{ block.settings.slider-text-alignment }} align-middle" id="slider-caption-block">
-                <h2>{{ block.settings.slide-title-heading | escape }}</h2>
-                <p>{{ block.settings.slider-captions | escape }}</p>
+            <div class="w-100 position-absolute top-50 translate-middle-y mx-md-5 px-5 text-{{ block.settings.text-alignment-mobile }} text-md-{{ block.settings.slider-text-alignment }}" id="slider-caption-block">
+                <h2 class="h1 mx-md-5 slider-header">{{ block.settings.slide-title-heading | escape }}</h2>
+                <h3 class="h3 mx-md-5 slider-subtitle">{{ block.settings.slider-captions | escape }}</h3>
                 {%- if block.settings.slider-link-button != blank -%}
-                  <a href="{{ block.settings.slider-link-button | escape }}" class="btn my-2 btn-slider color-{{ block.settings.color_scheme }}">{{ block.settings.slider-link-button-label }}</a>
+                  <a href="{{ block.settings.slider-link-button | escape }}" class="btn mx-md-5 my-2 btn-slider color-{{ block.settings.color_scheme }}">{{ block.settings.slider-link-button-label }}</a>
                 {%- endif -%}
             </div>
           </div>
@@ -121,7 +175,7 @@
             "id": "slider-text-alignment",
             "options": [
               {
-                "value": "left",
+                "value": "start",
                 "label": "left"
               },
               {
@@ -129,7 +183,7 @@
                 "label": "center"
               },
               {
-                "value": "right",
+                "value": "end",
                 "label": "right"
               }
             ],
@@ -141,7 +195,7 @@
             "id": "text-alignment-mobile",
             "options": [
               {
-                "value": "left",
+                "value": "start",
                 "label": "left"
               },
               {
@@ -149,7 +203,7 @@
                 "label": "center"
               },
               {
-                "value": "right",
+                "value": "end",
                 "label": "right"
               }
             ],
@@ -223,8 +277,5 @@
 {% endschema %}
 
 {% javascript %}
-  <script>
-    const carousel = new bootstrap.Carousel('#homeCustomCarousel')
-  </script>
     
 {% endjavascript %}
