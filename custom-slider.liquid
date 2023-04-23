@@ -1,0 +1,230 @@
+<style>
+  #custom-slider-section {
+    padding-top: {{ section.settings.custom-slider-top-padding }}px;
+    padding-bottom: {{ section.settings.custom-slider-bottom-padding }}px;
+  }
+
+  .btn-slider:hover {
+    transform: scale(1.1);
+  }
+
+</style>
+
+<div class="{%- if section.settings.full-width-section != true -%}container{%- else -%}100-vw{%- endif -%}" id="custom-slider-section">
+    <div id="custom-slider-liquid" class="carousel slide" data-bs-ride="true">
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#custom-slider-liquid" data-bs-slide-to="0" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#custom-slider-liquid" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#custom-slider-liquid" data-bs-slide-to="2" class="active" aria-current="true" aria-label="Slide 3"></button>
+      </div>
+      <div class="carousel-inner">
+        {%- for block in section.blocks -%}
+        <!-- must have same size both image and video recommended size is 1640 x 924 px fb cover or 720 x 500 px -->
+          <div class="carousel-item relative" id="slider-block">  
+            <a href="{{ block.settings.slider-link-button | escape }}">
+              <img src="{{ block.settings.costom-slider-image | image_url }}" 
+                class="img-fluid d-none d-md-block" id="sliderCarouselImage"
+                alt="{{ block.settings.costom-slider-image.alt | escape }}"
+              >
+              <img src="{{ block.settings.slider-image-mobile | image_url }}" 
+                class="img-fluid d-block d-md-none" id="sliderCarouselImage"
+                alt="{{ block.settings.costom-slider-image-mobile.alt | escape }}"
+              >
+              {%- if block.settings.video-slider != blank -%}
+                <video class="object-fit-fill w-100 h-100 d-none" id="sliderVideo" autoplay muted playsinline loop>
+                  <source src="{{ block.settings.video-slider }}" loading="lazy" type="video/mp4">
+                </video>
+              {%- endif -%}
+            </a>
+            <div class="absolute d-block my-auto px-2 px-md-5text-{{ block.settings.text-alignment-mobile }} text-md-{{ block.settings.slider-text-alignment }} align-middle" id="slider-caption-block">
+                <h2>{{ block.settings.slide-title-heading | escape }}</h2>
+                <p>{{ block.settings.slider-captions | escape }}</p>
+                {%- if block.settings.slider-link-button != blank -%}
+                  <a href="{{ block.settings.slider-link-button | escape }}" class="btn my-2 btn-slider color-{{ block.settings.color_scheme }}">{{ block.settings.slider-link-button-label }}</a>
+                {%- endif -%}
+            </div>
+          </div>
+        {%- endfor -%}
+        </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#custom-slider-liquid" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#custom-slider-liquid" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+      </div>    
+    </div>
+</div>
+
+{% schema %}
+  {
+    "name": "custom-slider",
+    "class": "section",
+    "tag": "section",
+    "settings": [
+      {
+        "type": "range",
+        "min": 0,
+        "max": 50,
+        "step": 1,
+        "default": 0,
+        "id": "custom-slider-top-padding",
+        "label": "top padding"
+      },
+      {
+        "type": "range",
+        "min": 0,
+        "max": 50,
+        "step": 1,
+        "default": 0,
+        "id": "custom-slider-bottom-padding",
+        "label": "bottom padding"
+      },
+      {
+        "type": "checkbox",
+        "id": "full-width-section",
+        "default": false,
+        "label": "Enable full width?"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "slide",
+        "name": "Sliders",
+        "limit": 3,
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "costom-slider-image",
+            "label": "image"
+          },
+          {
+            "type": "image_picker",
+            "id": "slider-image-mobile",
+            "label": "image for mobile"
+          },
+          {
+            "type": "url",
+            "id": "video-slider",
+            "label": "video for this slider"
+          },
+          {
+            "type": "url",
+            "id": "slider-link-button",
+            "label": "button link"
+          },
+          {
+            "type": "select",
+            "id": "slider-text-alignment",
+            "options": [
+              {
+                "value": "left",
+                "label": "left"
+              },
+              {
+                "value": "center",
+                "label": "center"
+              },
+              {
+                "value": "right",
+                "label": "right"
+              }
+            ],
+            "default": "center",
+            "label": "text alignment"
+          },
+          {
+            "type": "select",
+            "id": "text-alignment-mobile",
+            "options": [
+              {
+                "value": "left",
+                "label": "left"
+              },
+              {
+                "value": "center",
+                "label": "center"
+              },
+              {
+                "value": "right",
+                "label": "right"
+              }
+            ],
+            "default": "center",
+            "label": "text alignment for mobile"
+          },
+          {
+            "type": "text",
+            "id": "slider-link-button-label",
+            "default": "view",
+            "label": "button label"
+          },
+          {
+            "type": "text",
+            "id": "slide-title-heading",
+            "label": "Slide Heading"
+          },
+          {
+            "type": "text",
+            "id": "slider-captions",
+            "label": "Slider caption"
+          },
+          {
+            "type": "select",
+            "id": "color_scheme",
+            "options": [
+              {
+                "value": "accent-1",
+                "label": "t:sections.all.colors.accent_1.label"
+              },
+              {
+                "value": "accent-2",
+                "label": "t:sections.all.colors.accent_2.label"
+              },
+              {
+                "value": "background-1",
+                "label": "t:sections.all.colors.background_1.label"
+              },
+              {
+                "value": "background-2",
+                "label": "t:sections.all.colors.background_2.label"
+              },
+              {
+                "value": "inverse",
+                "label": "t:sections.all.colors.inverse.label"
+              }
+            ],
+            "default": "background-1",
+            "label": "button color"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": {
+          "en":"Custom slider Banner"
+        },
+        "category": {
+          "en": "main"
+        },
+        "blocks": [
+          {
+            "type": "slide"
+          }
+        ]
+      }
+    ]
+  }
+  
+{% endschema %}
+
+{% javascript %}
+  <script>
+    const carousel = new bootstrap.Carousel('#homeCustomCarousel')
+  </script>
+    
+{% endjavascript %}
