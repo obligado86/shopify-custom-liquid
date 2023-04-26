@@ -1,0 +1,154 @@
+<style>
+  .banner {
+    z-index: 2;
+    position: relative;
+  }
+  .banner-img:hover {
+    scale: 1.03;
+  }
+  .banner-link {
+    color: white;
+  }
+  .banner:hover {
+    color: #B99F88;
+  }
+  #banner-collection-section {
+    margin-top: {{ section.settings.custom-slider-top-padding }}px;
+    margin-bottom: {{ section.settings.custom-slider-bottom-padding }}px;
+  }
+</style>
+
+<div class="container{%- if section.settings.full-width-section == true -%}-fluid{%- endif -%}" id="banner-collection-section">
+  <div class="row">
+    <div class="col-12 col-md-4 px-md-2 position-relative py-4 py-md-0">
+		<img class="img-fluid banner-img" loading="lazy" src=" {{ section.settings.image-banner1 | image_url }}" alt="{{ section.settings.image-banner1.alt | escape }}"/>
+        <div class="position-absolute top-50 translate-middle-y p-5">
+        	<h4 class="text-light banner">{{ section.settings.banner1-tag | escape }}</h4>
+            <h2 class="text-light banner py-1">{{ section.settings.banner1-label }}</h2>
+    		<a href="{{ section.settings.banner1-link | escape }}" class="banner-link banner">See more ></a>
+        </div>
+	</div>
+    <div class="col-12 col-md-4 px-md-2 position-relative py-4 py-md-0">
+		<img class="img-fluid banner-img" loading="lazy" src=" {{ section.settings.image-banner2 | image_url }}" alt="{{ section.settings.image-banner2.alt | escape }}"/>
+        <div class="position-absolute top-50 translate-middle-y p-5">
+            <h4 class="text-light banner">{{ section.settings.banner2-tag | escape }}</h4>
+        	<h2 class="text-light banner py-1">{{ section.settings.banner2-label }}</h2>
+    		<a href="{{ section.settings.banner2-link | escape }}" class="banner-link banner">See more ></a>
+        </div>
+	</div>
+    <div class="col-12 col-md-4 px-md-2 position-relative py-4 py-md-0">
+		<img class="img-fluid banner-img" loading="lazy" src=" {{ section.settings.image-banner3 | image_url }}" alt="{{ section.settings.image-banner3.alt | escape }}"/>
+        <div class="position-absolute top-50 translate-middle-y p-5">
+            <h4 class="text-light banner">{{ section.settings.banner3-tag | escape }}</h4>
+        	<h2 class="text-light banner py-1">{{ section.settings.banner3-label }}</h2>
+    		<a href="{{ section.settings.banner3-link | escape }}" class="banner-link banner">See more ></a>
+        </div>
+	</div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "collection-banner",
+    "class": "section",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "full-width-section",
+        "default": false,
+        "label": "Enable full width?"
+      },
+      {
+        "type": "image_picker",
+        "id": "image-banner1",
+        "label": "image1"
+      },
+      {
+        "type": "text",
+        "id": "banner1-tag",
+        "label": "banner tag"
+      },
+      {
+        "type": "text",
+        "id": "banner1-label",
+        "label": "collection 1 label",
+        "default": "Collection"
+      },
+      {
+        "type": "url",
+        "id": "banner1-link",
+        "label": "banner 1 link"
+      },
+      {
+        "type": "image_picker",
+        "id": "image-banner2",
+        "label": "image2"
+      },
+      {
+        "type": "text",
+        "id": "banner2-tag",
+        "label": "banner tag"
+      },
+      {
+        "type": "text",
+        "id": "banner2-label",
+        "label": "collection 2 label",
+        "default": "Collection"
+      },
+      {
+        "type": "url",
+        "id": "banner2-link",
+        "label": "banner 2 link"
+      },
+      {
+        "type": "image_picker",
+        "id": "image-banner3",
+        "label": "image3"
+      },
+      {
+        "type": "text",
+        "id": "banner3-tag",
+        "label": "banner tag"
+      },
+      {
+        "type": "text",
+        "id": "banner3-label",
+        "label": "collection 3 label",
+        "default": "Collection"
+      },
+      {
+        "type": "url",
+        "id": "banner3-link",
+        "label": "banner 3 link"
+      },
+      {
+        "type": "range",
+        "min": 0,
+        "max": 50,
+        "step": 1,
+        "default": 0,
+        "id": "custom-slider-top-padding",
+        "label": "top margin"
+      },
+      {
+        "type": "range",
+        "min": 0,
+        "max": 50,
+        "step": 1,
+        "default": 0,
+        "id": "custom-slider-bottom-padding",
+        "label": "bottom margin"
+      }
+    ],
+    "presets": [
+      {
+        "name": {
+          "en":"Collection Banners"
+        },
+        "category": {
+          "en": "main"
+        }
+      }
+    ]
+  }
+{% endschema %}
