@@ -1,0 +1,52 @@
+    <style>
+      #popup-announcement {
+        width: 100vw;
+        background-color: #5B4F47;
+        z-index: 5;
+        position: absolute;
+        top: 0;
+      }
+
+      #popup-announcement label {
+        color: white;
+      }
+
+      @media (max-width: 500px) {
+        #popup-announcement {
+          font-size: 12px;
+        }
+      }
+
+      @media (max-width: 420px) {
+        #popup-announcement {
+          font-size: 10px;
+        }
+      }
+    </style>
+
+    <div x-data="{ shown: false }" x-intersect.once="shown = true" id="popup-announcement">
+      <div x-show="shown" x-transition.duration.300ms x-transition.delay.1000ms x-transition:leave.duration.400ms class="text-center w-100">
+        <div class="mt-1 d-inline-flex justify-content-between">
+          <div class="col-8">
+            <label for="welcome-code-alert" class="col-form-label">Buy Gifts For Father's Day Here's your <strong>25% OFF CODE:</strong></label>
+          </div>
+          <div class="input-group col-4 mb-1">
+            <input type="text" value="BESTDAD23" id="discountCode" class="text-center">
+            <button id="welcome-code-alert" class="btn btn-secondary" onclick="copyCode()">COPY</button>
+            <button id="closePopup-announcement" type="button" class="btn-close text-light tw-my-auto" @click="shown = false"><span class="fa fa-close"></span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      function copyCode() {
+        let copyText = document.getElementById("discountCode");
+
+        copyText.select();
+        copyText.setSelectionRange(0, 99999);
+
+        navigator.clipboard.writeText(copyText.value);
+
+        alert("Copied Code: " + copyText.value);
+      }
+    </script>
